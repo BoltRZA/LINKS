@@ -1,4 +1,4 @@
-package MASLab3;
+package MASLab3.Etc;
 
 public class Link {
 
@@ -15,6 +15,7 @@ public class Link {
     }
 
     public String getAgentName() {
+
         return agentName;
     }
 
@@ -23,10 +24,12 @@ public class Link {
     }
 
     public double getWeight() {
+
         return weight;
     }
 
     public void setWeight(double weight) {
+
         this.weight = weight;
     }
 }

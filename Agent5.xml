@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Setting>
+    <links>
+        <agentName>Agent4</agentName>
+        <weight>5.0</weight>
+    </links>
+    <links>
+        <agentName>Agent6</agentName>
+        <weight>5.0</weight>
+    </links>
+</Setting>

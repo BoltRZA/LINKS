@@ -1,4 +1,4 @@
-package MASLab3;
+package MASLab3.Etc;
 
 import java.io.File;
 
