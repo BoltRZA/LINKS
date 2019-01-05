@@ -23,6 +23,7 @@ public class Waiting4Request extends Behaviour {
     private AID whoRequested;
     private boolean linkFound = false;
     private double weight;
+    private String[] reqContent;
 
     public Waiting4Request(Agent agent, DataStore dataStore) {
         setDataStore(dataStore);
@@ -36,8 +37,7 @@ public class Waiting4Request extends Behaviour {
         Setting s= WorkWithConfigFiles.unMarshalAny(Setting.class, agent.getLocalName()+".xml");
         List<Link> links=s.getLinks();
 
-        MessageTemplate messageTemplate = MessageTemplate.and(MessageTemplate.MatchPerformative(ACLMessage.REQUEST),
-                MessageTemplate.MatchProtocol("foundLink"));
+        MessageTemplate messageTemplate = MessageTemplate.MatchPerformative(ACLMessage.REQUEST);
 
         ACLMessage request = agent.receive(messageTemplate);
         if(request !=null){
@@ -45,37 +45,41 @@ public class Waiting4Request extends Behaviour {
             whoRequested = request.getSender();
             getDataStore().put("whoRequested", whoRequested);
             int i = 0;
+            reqContent = request.getContent().split(";");
 
-            while (linkFound == false && i <= links.size()){
-                if (links.get(i).getAgentName().equals(request.getContent())){
+            while (linkFound == false && i <= reqContent.length){
+                if (myAgent.getLocalName().equals(reqContent[i])){
                     linkFound = true;
-                    weight = links.get(i).getWeight();
                 }else {
                     i = i + 1;
                 }
             }
-            if (linkFound == true){
-                ACLMessage message = request.createReply();
-                message.setProtocol("foundLink");
-                message.setContent(agent.getLocalName() + "-" + weight + "");
-                message.setPerformative(ACLMessage.INFORM);
+            if (agent.getLocalName().equals(request.getProtocol())){
+                System.out.println("Agent " + agent.getLocalName() + " said: Connection by the request of " +
+                        reqContent[0] + " was found! Informing back!");
+                ACLMessage message = new ACLMessage(ACLMessage.INFORM);
+                message.setProtocol("InfBack");
+                message.setContent(request.getContent());
+                message.addReceiver(new AID(reqContent[0],false));
                 agent.send(message);
                 System.out.println("Agent " + agent.getLocalName() + " got link with " + request.getContent() +
                         " by the request of " + request.getSender().getLocalName());
-            }else{
+            }else if (linkFound == false){
                 ACLMessage anotherRequest = new ACLMessage(ACLMessage.REQUEST);
-                anotherRequest.setProtocol("foundLink");
-                anotherRequest.setContent(request.getContent());
+                anotherRequest.setProtocol(request.getProtocol());
                 for (AID rec: receivers){
-                    for (int j =0; j <= links.size(); j++){
-                        if (rec.getLocalName().equals(links.get(j).getAgentName()) && !rec.getLocalName().equals(
-                                request.getSender().getLocalName())){
+                    for (Link link:links){
+                        if (rec.getLocalName().equals(link.getAgentName()) && !rec.equals(whoRequested)){
+                            anotherRequest.setContent(request.getContent()+ ";" + agent.getLocalName() + ";" +
+                                    link.getWeight() + "");
                             anotherRequest.addReceiver(rec);
                         }
                     }
                 }
                 agent.send(anotherRequest);
                 System.out.println("Agent " + agent.getLocalName() + " is asking neighbours for the links...");
+            }else {
+                System.out.println("Agent " + agent.getLocalName() + " said: I'm already in the circle");
             }
         }else{
             block();

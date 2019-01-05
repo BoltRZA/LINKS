@@ -31,7 +31,7 @@ public class Waiting4Inform extends Behaviour {
         List<Link> links = setting.getLinks();
 
         MessageTemplate messageTemplate = MessageTemplate.and(MessageTemplate.MatchPerformative(ACLMessage.INFORM),
-            MessageTemplate.MatchProtocol("foundLink"));
+            MessageTemplate.MatchProtocol("InfBack"));
 
         ACLMessage message = agent.receive(messageTemplate);
         if (message != null){
