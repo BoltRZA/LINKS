@@ -10,12 +10,15 @@ import java.util.List;
 public class Snippet {
     public static void main(String[] args) {
         List<Link> links = new ArrayList<Link>();
-//        links.add(new Link("Agent2", 10));
-//        links.add(new Link("Agent3", 25));
-//    Setting s = new Setting();
-//        s.setLinks(links);
+       links.add(new Link("Agent7", 10));
+       links.add(new Link("Agent8", 20));
+//       links.add(new Link("Agent6", 15));
+//       links.add(new Link("Agent10", 20));
+
+        Setting s = new Setting();
+        s.setLinks(links);
 ////      создаем xml
-////      WorkWithConfigFiles.marshalAny(Setting.class, s, "Agent1.xml");
+      WorkWithConfigFiles.marshalAny(Setting.class, s, "Agent10.xml");
 //
 //    Setting s2 = WorkWithConfigFiles.unMarshalAny(Setting.class, "Agent1.xml");
 

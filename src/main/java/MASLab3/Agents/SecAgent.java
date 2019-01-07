@@ -4,7 +4,7 @@ package MASLab3.Agents;
 import MASLab3.Etc.Link;
 import MASLab3.Etc.Setting;
 import MASLab3.Etc.WorkWithConfigFiles;
-import MASLab3.SecBhvs.Waiting4Request;
+import MASLab3.SecBhvs.SecLogic;
 import jade.core.AID;
 import jade.core.Agent;
 import jade.core.behaviours.DataStore;
@@ -47,15 +47,13 @@ public class SecAgent extends Agent {
                 System.out.println("There are no agents to link!");
             } else {
                 for (int i = 0; i < result.length; ++i){
-                    for (int j = 0; j <links.size(); ++j) {
-                        receivers.add(result[i].getName());
-                    }
+                    receivers.add(result[i].getName());
                 }
             }
         } catch (FIPAException e) {
             e.printStackTrace();
         }
         dataStore.put("receivers", receivers);
-        addBehaviour(new Waiting4Request(this, dataStore));
+        addBehaviour(new SecLogic(this, dataStore));
     }
 }

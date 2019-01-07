@@ -21,6 +21,11 @@ public class MainAgent extends Agent {
     @Override
     protected void setup() {
         super.setup();
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         DataStore dataStore = new DataStore();
 
 
@@ -46,8 +51,10 @@ public class MainAgent extends Agent {
             if (result.length == 0) {
                 System.out.println("There are no agents to link!");
             } else {
-                for (int i = 0; i < result.length; ++i){
-                    receivers.add(result[i].getName());
+                for (int i = 0; i < result.length; i++){
+                    if (!result[i].getName().equals(this.getName())){
+                        receivers.add(result[i].getName());
+                    }
                 }
             }
         } catch (FIPAException e) {
