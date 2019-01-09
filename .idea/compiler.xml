@@ -6,11 +6,11 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="MAS.Lab3" />
+        <module name="BoltLINKS" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="MAS.Lab3" target="1.5" />
+      <module name="BoltLINKS" target="1.5" />
     </bytecodeTargetLevel>
   </component>
 </project>

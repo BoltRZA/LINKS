@@ -36,17 +36,6 @@ public class Begin extends OneShotBehaviour {
         int input = scanner.nextInt();
         agentTemplate = "Agent" + input; //Mb +""
         if (new IntRange(0, 10).containsInteger(input)) {
-            int i = 0;
-            while (i < links.size() && (linkFound == false)) {
-                if (links.get(i).getAgentName().equals(agentTemplate)) {
-                    linkFound = true;
-                    System.out.println(agent.getLocalName() + " found link with "
-                            + links.get(i).getAgentName() + ". The line weight is " + links.get(i).getWeight());
-                } else {
-                    i = i + 1;
-                }
-            }
-            if (linkFound == false) {
                 for (AID rec : receivers) {
                     for (int j = 0; j < links.size(); j++) {
                         if (rec.getLocalName().equals(links.get(j).getAgentName())) {
@@ -60,7 +49,6 @@ public class Begin extends OneShotBehaviour {
                         }
                     }
                 }
-            }
         } else {
             throw new RuntimeException("Error! What the fuck you've entered?");
         }
@@ -68,8 +56,8 @@ public class Begin extends OneShotBehaviour {
 
     @Override
     public int onEnd() {
-        Result behaviour = new Result(agent, 5000, getDataStore());
-        agent.addBehaviour(behaviour);
+            Result behaviour = new Result(agent, 5000, getDataStore());
+            agent.addBehaviour(behaviour);
         return super.onEnd();
     }
 }
